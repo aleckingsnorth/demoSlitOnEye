@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="js_scripts/drawing.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        var angle=0;
+        var xVal=0;
+        var yVal=0;
+        $(function () {
+            $("#angleSlider").slider({
+                value: 50,
+                slide: function (event, ui) {
+                    var actualValue = ((ui.value * 2) - 100) / 100;
+                    angle=actualValue;//0-1
+                    drawOnCanvas(angle,xVal);
+
+                    console.log(angle);
+                    console.log(xVal);
+                    console.log(yVal);
+
+                }
+            });
+        });
+
+        $(function () {
+            $("#xSlider").slider({
+                value: 50,
+                slide: function (event, ui) {
+                    var actualValue = ((ui.value * 2) - 100) / 100;
+                    xVal=actualValue;//0-1
+
+                    drawOnCanvas(angle,xVal);
+
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <img id="eyeImage" src="assets/eye.png" width="100" alt="The Scream"></img>
+    <h1>
+        Demo
+    </h1>
+    <div id="draw-eye">
+
+    </div>
+    <canvas id="myCanvas" width="400" height="400" style="border:4px solid #d3d3d3;">
+        Your browser does not support the HTML5 canvas tag.</canvas>
+        <br>
+
+    <label>Illumination Angle</label>
+    <div id="angleSlider" width="400"></div>
+    <label>Viewing Arm X - Value</label>
+    <div id="xSlider" width="400"></div>
+
+</body>
+
+</html>
