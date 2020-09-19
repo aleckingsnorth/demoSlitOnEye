@@ -15,20 +15,43 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        var angle=0;
-        var xVal=0;
-        var yVal=0;
+        var angle = 0;
+        var xVal = 0;
+        var yVal = 0;
+        var slitHeight = 0;
+        var slitWidth = 0.5;
         $(function () {
             $("#angleSlider").slider({
                 value: 50,
                 slide: function (event, ui) {
                     var actualValue = ((ui.value * 2) - 100) / 100;
-                    angle=actualValue;//0-1
-                    drawOnCanvas(angle,xVal);
+                    angle = actualValue;//0-1
+                    drawOnCanvas(angle, xVal,yVal, slitHeight,slitWidth);
 
-                    console.log(angle);
-                    console.log(xVal);
-                    console.log(yVal);
+
+                }
+            });
+        });
+
+        $(function () {
+            $("#heightSlider").slider({
+                value: 50,
+                slide: function (event, ui) {
+                    var actualValue = (ui.value) / 100;
+                    slitHeight = actualValue;//0-1
+                    drawOnCanvas(angle, xVal,yVal, slitHeight,slitWidth);
+
+                }
+            });
+        });
+
+        $(function () {
+            $("#widthSlider").slider({
+                value: 50,
+                slide: function (event, ui) {
+                    var actualValue = (ui.value) / 100;
+                    slitWidth = actualValue;//0-1
+                    drawOnCanvas(angle, xVal,yVal, slitHeight,slitWidth);
 
                 }
             });
@@ -39,9 +62,20 @@
                 value: 50,
                 slide: function (event, ui) {
                     var actualValue = ((ui.value * 2) - 100) / 100;
-                    xVal=actualValue;//0-1
+                    xVal = actualValue;//0-1
+                    drawOnCanvas(angle, xVal,yVal, slitHeight,slitWidth);
 
-                    drawOnCanvas(angle,xVal);
+                }
+            });
+        });
+
+        $(function () {
+            $("#ySlider").slider({
+                value: 50,
+                slide: function (event, ui) {
+                    var actualValue = ((ui.value * 2) - 100) / 100;
+                    yVal = actualValue;//0-1
+                    drawOnCanvas(angle, xVal,yVal, slitHeight,slitWidth);
 
                 }
             });
@@ -57,14 +91,29 @@
     <div id="draw-eye">
 
     </div>
-    <canvas id="myCanvas" width="400" height="400" style="border:4px solid #d3d3d3;">
-        Your browser does not support the HTML5 canvas tag.</canvas>
-        <br>
 
     <label>Illumination Angle</label>
     <div id="angleSlider" width="400"></div>
-    <label>Viewing Arm X - Value</label>
+
+    <label> X Pan - Value</label>
     <div id="xSlider" width="400"></div>
+
+    <label>Y Pan - Value</label>
+    <div id="ySlider" width="400"></div>
+
+    <label>Slit Height</label>
+    <div id="heightSlider" width="400"></div>
+
+    <label>Slit Width</label>
+    <div id="widthSlider" width="400"></div>
+
+    <div style="position: relative;">
+        <canvas id="layer1" width="400" height="400" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+        <canvas id="layer2" width="400" height="400" style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+    </div>
+    <br>
+
+
 
 </body>
 

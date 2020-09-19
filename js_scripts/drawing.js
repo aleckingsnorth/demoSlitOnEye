@@ -1,42 +1,55 @@
-function drawOnCanvas(angleOfSlit,xVal) {
+function drawOnCanvas(angleOfSlit,xVal,yVal,slitHeight,slitWidth) {
     const height=400;
     const width=400;
     const rectWidth=(width/2)*(angleOfSlit+(xVal));
 
+    //----Layer 1
     //setup canvas
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
-    ctx.clearRect(0,0, width,height)
-    ctx.globalAlpha = 1.0;
-
-
+    var c = document.getElementById("layer1");
+    var ctx1 = c.getContext("2d");
+    ctx1.clearRect(0,0, width,height)
+    ctx1.globalAlpha = 1.0;
     var xShift= (width/2)*xVal;
+    var yShift= (height/2)*yVal;
     //draw image
     var img = document.getElementById("eyeImage");
-    ctx.drawImage(img, width/2-100-xShift, height/2-100);
+    ctx1.drawImage(img, width/2-100-xShift, (height/2)-100 +yShift) ;
 
-    //Draw rect
-    ctx.beginPath();
-    ctx.lineWidth = 1;
-    ctx.strokeStyle="blue";
-    ctx.strokeRect((width/2-rectWidth), 0, rectWidth,height);
+
+    //----Layer 2
+    var c = document.getElementById("layer2");
+    var ctx2 = c.getContext("2d");
+    ctx2.clearRect(0,0, width,height)
+
+
+    //Clip for Slit height
+    ctx2.save();
+    ctx2.beginPath();
+    ctx2.globalAlpha = 1.0;
+    ctx2.rect(0,(height/2)*slitHeight,width,height-(height*slitHeight));
+    ctx2.clip();
+    console.log(slitHeight);
 
     //Draw curve
-    ctx.beginPath();
-    ctx.globalAlpha = 0.9;
-    ctx.lineWidth = 20;
-    ctx.lineCap="round";
-    ctx.strokeStyle="rgba(255,255,255,100)";
+    ctx2.beginPath();
+    ctx2.globalAlpha = 0.9;
+    ctx2.lineWidth = 150*slitWidth;
+    ctx2.lineCap="round";
+    ctx2.strokeStyle="rgba(255,255,255,100)";
     var xAdjustment= 1.333;
-    p1={x:(width/2)-rectWidth,y:0};
-    p2={x:(width/2)+(rectWidth*xAdjustment)-rectWidth,y:0};
-    p3={x:(width/2)+(rectWidth*xAdjustment)-rectWidth,y:height};
-    p4={x:(width/2)-rectWidth,y:height};
+    p1={x:(width/2)-rectWidth,y:0+yShift};
+    p2={x:(width/2)+(rectWidth*xAdjustment)-rectWidth,y:0+yShift};
+    p3={x:(width/2)+(rectWidth*xAdjustment)-rectWidth,y:height+yShift};
+    p4={x:(width/2)-rectWidth,y:height+yShift};
 
-    ctx.moveTo(p1.x,p1.y);
-    ctx.bezierCurveTo(p2.x,p2.y,p3.x,p3.y,p4.x,p4.y);
-    ctx.stroke();
+    ctx2.moveTo(p1.x,p1.y);
+    ctx2.bezierCurveTo(p2.x,p2.y,p3.x,p3.y,p4.x,p4.y);
+    ctx2.stroke();
+    ctx2.restore();
     
+    
+    
+    //Draw Slit height
 
 
 
