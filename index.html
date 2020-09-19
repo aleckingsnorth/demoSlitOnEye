@@ -7,8 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-
-
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
     <link rel="stylesheet" href="css/theme.css">
@@ -18,15 +16,17 @@
         var angle = 0;
         var xVal = 0;
         var yVal = 0;
-        var slitHeight = 0;
-        var slitWidth = 0.5;
+        var slitHeight = 0.25;
+        var slitWidth = 0.25;
+        
         $(function () {
             $("#angleSlider").slider({
                 value: 50,
                 slide: function (event, ui) {
                     var actualValue = ((ui.value * 2) - 100) / 100;
-                    angle = actualValue;//0-1
+                    angle = actualValue;//-1 to 1
                     drawOnCanvas(angle, xVal,yVal, slitHeight,slitWidth);
+                    console.log({angle:angle, xVal:xVal, yVal:yVal, slitHeight:slitHeight, slitWidth:slitWidth});
 
 
                 }
@@ -35,11 +35,12 @@
 
         $(function () {
             $("#heightSlider").slider({
-                value: 50,
+                value: 25,
                 slide: function (event, ui) {
                     var actualValue = (ui.value) / 100;
                     slitHeight = actualValue;//0-1
                     drawOnCanvas(angle, xVal,yVal, slitHeight,slitWidth);
+                    console.log({angle:angle, xVal:xVal, yVal:yVal, slitHeight:slitHeight, slitWidth:slitWidth});
 
                 }
             });
@@ -47,11 +48,12 @@
 
         $(function () {
             $("#widthSlider").slider({
-                value: 50,
+                value: 25,
                 slide: function (event, ui) {
                     var actualValue = (ui.value) / 100;
                     slitWidth = actualValue;//0-1
                     drawOnCanvas(angle, xVal,yVal, slitHeight,slitWidth);
+                    console.log({angle:angle, xVal:xVal, yVal:yVal, slitHeight:slitHeight, slitWidth:slitWidth});
 
                 }
             });
@@ -64,6 +66,7 @@
                     var actualValue = ((ui.value * 2) - 100) / 100;
                     xVal = actualValue;//0-1
                     drawOnCanvas(angle, xVal,yVal, slitHeight,slitWidth);
+                    console.log({angle:angle, xVal:xVal, yVal:yVal, slitHeight:slitHeight, slitWidth:slitWidth});
 
                 }
             });
@@ -76,6 +79,7 @@
                     var actualValue = ((ui.value * 2) - 100) / 100;
                     yVal = actualValue;//0-1
                     drawOnCanvas(angle, xVal,yVal, slitHeight,slitWidth);
+                    console.log({angle:angle, xVal:xVal, yVal:yVal, slitHeight:slitHeight, slitWidth:slitWidth});
 
                 }
             });
@@ -112,8 +116,9 @@
         <canvas id="layer2" width="400" height="400" style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
     </div>
     <br>
-
-
+    <script>
+                            drawOnCanvas(angle, xVal,yVal, slitHeight,slitWidth);
+    </script>
 
 </body>
 

@@ -26,9 +26,8 @@ function drawOnCanvas(angleOfSlit,xVal,yVal,slitHeight,slitWidth) {
     ctx2.save();
     ctx2.beginPath();
     ctx2.globalAlpha = 1.0;
-    ctx2.rect(0,(height/2)*slitHeight,width,height-(height*slitHeight));
+    ctx2.rect(0,(height/2)*(1-slitHeight),width,height-(height*(1-slitHeight)));
     ctx2.clip();
-    console.log(slitHeight);
 
     //Draw curve
     ctx2.beginPath();
