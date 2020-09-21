@@ -3,11 +3,13 @@ function drawOnCanvas(angleOfSlit,xVal,yVal,slitHeight,slitWidth) {
     const width=400;
     const rectWidth=(width/2)*(angleOfSlit+(xVal));
 
-    //----Layer 1
+    //----Layer 1 -- Eye Image
     //setup canvas
     var c = document.getElementById("layer1");
     var ctx1 = c.getContext("2d");
     ctx1.clearRect(0,0, width,height)
+    ctx1.save();
+
     ctx1.globalAlpha = 1.0;
     var xShift= (width/2)*xVal;
     var yShift= (height/2)*yVal;
@@ -16,41 +18,87 @@ function drawOnCanvas(angleOfSlit,xVal,yVal,slitHeight,slitWidth) {
     ctx1.drawImage(img, width/2-100-xShift, (height/2)-100 +yShift) ;
 
 
-    //----Layer 2
+    
+    //----Layer 2 -- Slit on Iris
     var c = document.getElementById("layer2");
     var ctx2 = c.getContext("2d");
     ctx2.clearRect(0,0, width,height)
+    //
+    //Draw Corneal curve
+    var xAdjustment= 1.333;
 
 
-    //Clip for Slit height
+    //---Draw Iris Curve
+    //Clip
+    ctx2.globalAlpha = 0.8;
+
+    ctx2.fillStyle="rgba(0,0,0,255)";
+    ctx2.fillRect(0,0,height,width);
+
+
+
     ctx2.save();
     ctx2.beginPath();
-    ctx2.globalAlpha = 1.0;
-    ctx2.rect(0,(height/2)*(1-slitHeight),width,height-(height*(1-slitHeight)));
-    ctx2.clip();
+    ctx2.filter = 'blur(2px)';
 
-    //Draw curve
+    ctx2.globalAlpha = 1.0;
+    ctx2.rect(0,(height/2)*(1-slitHeight),width,height-((height*(1-slitHeight))));
+    ctx2.clip();
+    
+    var irisShadowWidth=rectWidth/5;
     ctx2.beginPath();
-    ctx2.globalAlpha = 0.9;
-    ctx2.lineWidth = 150*slitWidth;
+    ctx2.lineWidth = 150*slitWidth*1.2;
     ctx2.lineCap="round";
-    ctx2.strokeStyle="rgba(255,255,255,100)";
-    var xAdjustment= 1.333;
+    ctx2.globalAlpha = 1.0;
+
+    ctx2.strokeStyle="rgb(255,255,255)";
+
+    var shadowShift=-angleOfSlit*40;
+
+    e1={x:(width/2)-irisShadowWidth+shadowShift,y:0+yShift};
+    e2={x:(width/2)+(irisShadowWidth*xAdjustment)-irisShadowWidth+shadowShift,y:0+yShift};
+    e3={x:(width/2)+(irisShadowWidth*xAdjustment)-irisShadowWidth+shadowShift,y:height+yShift};
+    e4={x:(width/2)-irisShadowWidth+shadowShift,y:height+yShift};
+
+    ctx2.globalCompositeOperation = "destination-out";
+
+    ctx2.moveTo(e1.x,e1.y);
+    ctx2.bezierCurveTo(e2.x,e2.y,e3.x,e3.y,e4.x,e4.y);
+    ctx2.stroke();
+    ctx2.restore();
+
+    //----Layer 3 -- Slit on Cornea
+    var c = document.getElementById("layer3");
+    var ctx3 = c.getContext("2d");
+    ctx3.clearRect(0,0, width,height)
+
+    var opacity= Math.pow((1-slitWidth),10)*0.5;
+    //Clip for Slit height
+    //Draw Slit height
+    ctx3.save();
+    ctx3.beginPath();
+    ctx3.globalAlpha = 1.0;
+    ctx3.rect(0,(height/2)*(1-slitHeight)*1.0,width,height-((height*(1-slitHeight)*1.0)));
+    ctx3.clip();
+
+    ctx3.beginPath();
+    ctx3.lineWidth = 150*slitWidth;
+    ctx3.lineCap="round";
+    ctx3.strokeStyle="rgba(255,255,255)";
+    ctx3.globalAlpha = opacity;
+    console.log("opacity");
+    console.log(opacity);
+
+    
     p1={x:(width/2)-rectWidth,y:0+yShift};
     p2={x:(width/2)+(rectWidth*xAdjustment)-rectWidth,y:0+yShift};
     p3={x:(width/2)+(rectWidth*xAdjustment)-rectWidth,y:height+yShift};
     p4={x:(width/2)-rectWidth,y:height+yShift};
 
-    ctx2.moveTo(p1.x,p1.y);
-    ctx2.bezierCurveTo(p2.x,p2.y,p3.x,p3.y,p4.x,p4.y);
-    ctx2.stroke();
-    ctx2.restore();
-    
-    
-    
-    //Draw Slit height
-
-
+    ctx3.moveTo(p1.x,p1.y);
+    ctx3.bezierCurveTo(p2.x,p2.y,p3.x,p3.y,p4.x,p4.y);
+    ctx3.stroke();
+    ctx3.restore();
 
 }
 
