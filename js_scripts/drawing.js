@@ -53,7 +53,7 @@ function drawOnCanvas(angleOfSlit,xVal,yVal,slitHeight,slitWidth) {
 
     ctx2.strokeStyle="rgb(255,255,255)";
 
-    var shadowShift=-angleOfSlit*40;
+    var shadowShift=-angleOfSlit*27;
 
     e1={x:(width/2)-irisShadowWidth+shadowShift,y:0+yShift};
     e2={x:(width/2)+(irisShadowWidth*xAdjustment)-irisShadowWidth+shadowShift,y:0+yShift};
