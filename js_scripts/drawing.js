@@ -30,7 +30,7 @@ function drawOnCanvas(angleOfSlit,xVal,yVal,slitHeight,slitWidth) {
 
     //---Draw Iris Curve
     //Clip
-    ctx2.globalAlpha = 0.8;
+    ctx2.globalAlpha = 0.9;
 
     ctx2.fillStyle="rgba(0,0,0,255)";
     ctx2.fillRect(0,0,height,width);
@@ -53,7 +53,7 @@ function drawOnCanvas(angleOfSlit,xVal,yVal,slitHeight,slitWidth) {
 
     ctx2.strokeStyle="rgb(255,255,255)";
 
-    var shadowShift=-angleOfSlit*27;
+    var shadowShift=-angleOfSlit*33;
 
     e1={x:(width/2)-irisShadowWidth+shadowShift,y:0+yShift};
     e2={x:(width/2)+(irisShadowWidth*xAdjustment)-irisShadowWidth+shadowShift,y:0+yShift};
@@ -85,18 +85,48 @@ function drawOnCanvas(angleOfSlit,xVal,yVal,slitHeight,slitWidth) {
     ctx3.lineWidth = 150*slitWidth;
     ctx3.lineCap="round";
     ctx3.strokeStyle="rgba(255,255,255)";
-    ctx3.globalAlpha = opacity;
-    console.log("opacity");
-    console.log(opacity);
+    ctx3.globalAlpha = 0.7;
+   
 
-    
-    p1={x:(width/2)-rectWidth,y:0+yShift};
-    p2={x:(width/2)+(rectWidth*xAdjustment)-rectWidth,y:0+yShift};
-    p3={x:(width/2)+(rectWidth*xAdjustment)-rectWidth,y:height+yShift};
-    p4={x:(width/2)-rectWidth,y:height+yShift};
+    var shiftForX=((ctx3.lineWidth/2)+((10*slitWidth)/2))*angleOfSlit;
+    p1={x:(width/2)-rectWidth+shiftForX,y:0+yShift};
+    p2={x:(width/2)+(rectWidth*xAdjustment)-rectWidth+shiftForX,y:0+yShift};
+    p3={x:(width/2)+(rectWidth*xAdjustment)-rectWidth+shiftForX,y:height+yShift};
+    p4={x:(width/2)-rectWidth+shiftForX,y:height+yShift};
 
     ctx3.moveTo(p1.x,p1.y);
     ctx3.bezierCurveTo(p2.x,p2.y,p3.x,p3.y,p4.x,p4.y);
+    ctx3.stroke();
+    ctx3.restore();
+
+
+    //Second Slit
+
+    ctx3.save();
+    ctx3.beginPath();
+    ctx3.globalAlpha = 1.0;
+    ctx3.rect(0,(height/2)*(1-slitHeight)*1.0,width,height-((height*(1-slitHeight)*1.0)));
+    ctx3.clip();
+
+    var opacity2= Math.pow((1-slitWidth),1);
+    if(opacity2<0.75){
+        opacity2=0;
+    }
+
+    ctx3.beginPath();
+    ctx3.lineWidth = 7*(1-slitWidth);
+    ctx3.lineCap="round";
+    ctx3.strokeStyle="white";
+    ctx3.globalAlpha = opacity2;
+
+    
+    t1={x:(width/2)-rectWidth,y:0+yShift};
+    t2={x:(width/2)+(rectWidth*xAdjustment)-rectWidth,y:0+yShift};
+    t3={x:(width/2)+(rectWidth*xAdjustment)-rectWidth,y:height+yShift};
+    t4={x:(width/2)-rectWidth,y:height+yShift};
+
+    ctx3.moveTo(t1.x,t1.y);
+    ctx3.bezierCurveTo(t2.x,t2.y,t3.x,t3.y,t4.x,t4.y);
     ctx3.stroke();
     ctx3.restore();
 
