@@ -30,7 +30,7 @@ function drawOnCanvas(angleOfSlit,xVal,yVal,slitHeight,slitWidth) {
 
     //---Draw Iris Curve
     //Clip
-    ctx2.globalAlpha = 0.9;
+    ctx2.globalAlpha = 0.8;
 
     ctx2.fillStyle="rgba(0,0,0,255)";
     ctx2.fillRect(0,0,height,width);
@@ -53,7 +53,7 @@ function drawOnCanvas(angleOfSlit,xVal,yVal,slitHeight,slitWidth) {
 
     ctx2.strokeStyle="rgb(255,255,255)";
 
-    var shadowShift=-angleOfSlit*33;
+    var shadowShift=-angleOfSlit*28;
 
     e1={x:(width/2)-irisShadowWidth+shadowShift,y:0+yShift};
     e2={x:(width/2)+(irisShadowWidth*xAdjustment)-irisShadowWidth+shadowShift,y:0+yShift};
@@ -85,7 +85,7 @@ function drawOnCanvas(angleOfSlit,xVal,yVal,slitHeight,slitWidth) {
     ctx3.lineWidth = 150*slitWidth;
     ctx3.lineCap="round";
     ctx3.strokeStyle="rgba(255,255,255)";
-    ctx3.globalAlpha = 0.7;
+    ctx3.globalAlpha = 0.8;
    
 
     var shiftForX=((ctx3.lineWidth/2)+((10*slitWidth)/2))*angleOfSlit;
@@ -109,7 +109,7 @@ function drawOnCanvas(angleOfSlit,xVal,yVal,slitHeight,slitWidth) {
     ctx3.clip();
 
     var opacity2= Math.pow((1-slitWidth),1);
-    if(opacity2<0.75){
+    if(opacity2<0.8){
         opacity2=0;
     }
 
