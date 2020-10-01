@@ -10,6 +10,13 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
     <link rel="stylesheet" href="css/theme.css">
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <script src="TemplateData/UnityProgress.js"></script>
+    <script src="Build/UnityLoader.js"></script>
+    <script>
+        var unityInstance = UnityLoader.instantiate("unityContainer", "Build/WebBuild.json", { onProgress: UnityProgress });
+    </script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
@@ -18,14 +25,14 @@
         var yVal = 0;
         var slitHeight = 0.25;
         var slitWidth = 0.25;
-        
+
         $(function () {
             $("#angleSlider").slider({
                 value: 50,
                 slide: function (event, ui) {
                     var actualValue = ((ui.value * 2) - 100) / 100;
                     angle = actualValue;//-1 to 1
-                    drawOnCanvas(angle, xVal,yVal, slitHeight,slitWidth);
+                    drawOnCanvas(angle, xVal, yVal, slitHeight, slitWidth);
 
                 }
             });
@@ -37,7 +44,7 @@
                 slide: function (event, ui) {
                     var actualValue = (ui.value) / 100;
                     slitHeight = actualValue;//0-1
-                    drawOnCanvas(angle, xVal,yVal, slitHeight,slitWidth);
+                    drawOnCanvas(angle, xVal, yVal, slitHeight, slitWidth);
 
                 }
             });
@@ -49,7 +56,7 @@
                 slide: function (event, ui) {
                     var actualValue = (ui.value) / 100;
                     slitWidth = actualValue;//0-1
-                    drawOnCanvas(angle, xVal,yVal, slitHeight,slitWidth);
+                    drawOnCanvas(angle, xVal, yVal, slitHeight, slitWidth);
 
                 }
             });
@@ -61,7 +68,7 @@
                 slide: function (event, ui) {
                     var actualValue = ((ui.value * 2) - 100) / 100;
                     xVal = actualValue;//0-1
-                    drawOnCanvas(angle, xVal,yVal, slitHeight,slitWidth);
+                    drawOnCanvas(angle, xVal, yVal, slitHeight, slitWidth);
 
                 }
             });
@@ -73,7 +80,7 @@
                 slide: function (event, ui) {
                     var actualValue = ((ui.value * 2) - 100) / 100;
                     yVal = actualValue;//0-1
-                    drawOnCanvas(angle, xVal,yVal, slitHeight,slitWidth);
+                    drawOnCanvas(angle, xVal, yVal, slitHeight, slitWidth);
 
                 }
             });
@@ -82,6 +89,19 @@
 </head>
 
 <body>
+    <div class="webgl-content">
+        <div id="unityContainer" style="width: 500px; height: 600px"></div>
+        <div class="footer">
+            <div class="webgl-logo"></div>
+            <div class="fullscreen" onclick="unityInstance.SetFullscreen(1)"></div>
+            <div class="title">slit lamp</div>
+        </div>
+    </div>
+
+    <div class="centered">
+        <h2>Message from Unity</h2>
+        <p id="lblMessage">...</p>
+    </div>
     <img id="eyeImage" src="assets/eye.png" width="100" alt="The Scream"></img>
     <h1>
         Demo - V1.3
@@ -112,7 +132,17 @@
     </div>
     <br>
     <script>
-                            drawOnCanvas(angle, xVal,yVal, slitHeight,slitWidth);
+        drawOnCanvas(angle, xVal, yVal, slitHeight, slitWidth);
+    </script>
+
+    <script>
+        // Function which receives a message from Unity
+        function receiveMessageFromUnity(txt) {
+            // Get element to assign the message
+            const lblMessage = document.getElementById("lblMessage");
+            // Assign received from Unity message
+            lblMessage.innerText = txt;
+        }
     </script>
 
 </body>
