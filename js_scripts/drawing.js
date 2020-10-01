@@ -153,6 +153,115 @@ function easeOutQuart(x){
     return pow(1 - x, 8);
 }
 
+function mapFilterAngleToBrowserAngle(filterAngle){
+    // -1 to 1;
+    var minAngle = 119.9;
+    var maxAngle = 240.1;
+    var range = maxAngle - minAngle;
+
+    var decimalPercent = (filterAngle-minAngle)/range;
+    var remap = ((decimalPercent*2)-1)*-1;
+    return remap;
+}
+
+function mapArmHeightToBrowserHeight(armHeight){
+    var newArmHeight=armHeight*-1;
+    // -1 to 1;
+    var minHeight = -2.74*-1;
+    var maxHeight = -3.24*-1;
+    var range = maxHeight - minHeight;
+    var decimalPercent = (newArmHeight-minHeight)/range;
+    var remap = ((decimalPercent*2)-1)*-1;
+    return remap;
+}
+
+function mapBaseXToBrowserX(baseX){
+    //-0.344 = 0;
+    var minBaseX = -0.8
+    var maxBaseX = 2;
+
+    var range = minBaseX-maxBaseX;
+
+    var val =baseX-minBaseX;
+    return ((val/range)*20)+3.25;
+}
+
+function isIncreasingOrDecreasing(oldValue, newValue){
+    if(newValue>oldValue+20){
+        //Going from 10->360
+        return true;
+    }
+
+    if(newValue<oldValue-20){
+        //Going from 350->0
+        return false;
+    }
+
+
+    if(newValue>oldValue){
+        return false;
+    }
+
+    return true;
+}
+
+function findNewSlitWidth(oldSlitWidth, oldSlitWidthAngle, newSlitWidthAngle){
+    if(oldSlitWidthAngle == newSlitWidthAngle){
+        return oldSlitWidth;
+    }
+    
+    var isIncreasing = isIncreasingOrDecreasing(oldSlitWidthAngle,newSlitWidthAngle);
+    var newWidth = oldSlitWidth;
+    console.log("slitWidthIncreasing?"+isIncreasing);
+
+
+    if(isIncreasing){
+        newWidth=oldSlitWidth+0.05;
+    }
+    else{
+        newWidth=oldSlitWidth-0.05;
+    }
+
+    if(newWidth>1.5){
+        return 1.5;
+    }
+
+    if(newWidth<0){
+        return 0;
+    }
+
+    return newWidth;
+}
+
+function findNewSlitHeight(oldSlitHeight, oldSlitHeightAngle, newSlitHeightAngle){
+    if(oldSlitHeightAngle == newSlitHeightAngle){
+        return oldSlitHeight;
+    }
+
+    var isIncreasing = isIncreasingOrDecreasing(oldSlitHeightAngle,newSlitHeightAngle);
+    var newHeight = oldSlitHeight;
+    console.log("slitWidthIncreasing?"+isIncreasing);
+
+
+    if(isIncreasing){
+        newHeight=oldSlitWidth+0.05;
+    }
+    else{
+        newHeight=oldSlitWidth-0.05;
+    }
+
+    if(newHeight>1.5){
+        return 1.5;
+    }
+
+    if(newHeight<0){
+        return 0;
+    }
+
+    return newHeight;
+}
+
+
 
 
 /**

@@ -68,6 +68,8 @@
                 slide: function (event, ui) {
                     var actualValue = ((ui.value * 2) - 100) / 100;
                     xVal = actualValue;//0-1
+
+                    console.log(xVal+"xVal");
                     drawOnCanvas(angle, xVal, yVal, slitHeight, slitWidth);
 
                 }
@@ -89,18 +91,20 @@
 </head>
 
 <body>
+    <br>
     <div class="webgl-content">
-        <div id="unityContainer" style="width: 500px; height: 600px"></div>
+        <div id="unityContainer" style="width: 500px; height: 800px; display: block;"></div>
         <div class="footer">
             <div class="webgl-logo"></div>
             <div class="fullscreen" onclick="unityInstance.SetFullscreen(1)"></div>
             <div class="title">slit lamp</div>
         </div>
     </div>
+    <br>
 
-    <div class="centered">
+    <div class="centered" style="display: inline-block;">
         <h2>Message from Unity</h2>
-        <p id="lblMessage">...</p>
+        <p id="lblMessage" style="display: inline-block;">...</p>
     </div>
     <img id="eyeImage" src="assets/eye.png" width="100" alt="The Scream"></img>
     <h1>
@@ -136,12 +140,25 @@
     </script>
 
     <script>
-        // Function which receives a message from Unity
+        var slitWidth=0.25;
+        var slitWidthAngle = 0;
         function receiveMessageFromUnity(txt) {
-            // Get element to assign the message
             const lblMessage = document.getElementById("lblMessage");
-            // Assign received from Unity message
             lblMessage.innerText = txt;
+
+            var myObject=JSON.parse(txt);
+            var angle = mapFilterAngleToBrowserAngle(myObject.filterArmAngle);
+            var heightZ=mapArmHeightToBrowserHeight(myObject.armY);
+            var baseX = mapBaseXToBrowserX(myObject.baseX);
+            var newSlitWidth=findNewSlitWidth(slitWidth,slitWidthAngle, myObject.slitWidthAngle);
+            
+            //Save
+            slitWidth=newSlitWidth;
+            slitWidthAngle=myObject.slitWidthAngle;
+            
+            console.log("slitWidth"+slitWidth);
+
+            drawOnCanvas(angle, baseX, heightZ, 0.25, slitWidth);
         }
     </script>
 
