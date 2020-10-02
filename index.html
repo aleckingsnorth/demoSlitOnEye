@@ -141,7 +141,10 @@
 
     <script>
         var slitWidth=0.25;
+        var slitHeight=0.25;
         var slitWidthAngle = 0;
+        var slitHeightAngle = 0;
+
         function receiveMessageFromUnity(txt) {
             const lblMessage = document.getElementById("lblMessage");
             lblMessage.innerText = txt;
@@ -151,14 +154,18 @@
             var heightZ=mapArmHeightToBrowserHeight(myObject.armY);
             var baseX = mapBaseXToBrowserX(myObject.baseX);
             var newSlitWidth=findNewSlitWidth(slitWidth,slitWidthAngle, myObject.slitWidthAngle);
+            var newSlitHeight=findNewSlitHeight(slitHeight, slitHeightAngle, myObject.slitHeightAngle);
+            var filter=getFilterOptionFromFilterAngle(myObject.filterSelectorAngle);
             
             //Save
             slitWidth=newSlitWidth;
+            slitHeight=newSlitHeight;
             slitWidthAngle=myObject.slitWidthAngle;
+            slitHeightAngle=myObject.slitHeightAngle;
             
-            console.log("slitWidth"+slitWidth);
+            console.log("filterOption"+filter);
 
-            drawOnCanvas(angle, baseX, heightZ, 0.25, slitWidth);
+            drawOnCanvas(angle, baseX, heightZ, slitHeight, slitWidth,filter);
         }
     </script>
 

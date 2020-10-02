@@ -1,4 +1,4 @@
-function drawOnCanvas(angleOfSlit,xVal,yVal,slitHeight,slitWidth) {
+function drawOnCanvas(angleOfSlit,xVal,yVal,slitHeight,slitWidth,filterOption) {
     const height=400;
     const width=400;
     const rectWidth=(width/2)*(angleOfSlit+(xVal));
@@ -16,6 +16,15 @@ function drawOnCanvas(angleOfSlit,xVal,yVal,slitHeight,slitWidth) {
     //draw image
     var img = document.getElementById("eyeImage");
     ctx1.drawImage(img, width/2-100-xShift, (height/2)-100 +yShift) ;
+
+    if(filterOption != "white"){
+        //ctx1.globalAlpha = 0.9;
+        ctx1.globalCompositeOperation = "color";
+
+
+    ctx1.fillStyle=getColorForShadow(filterOption);
+    ctx1.fillRect(0,0,500,400);
+}
 
 
     
@@ -51,7 +60,7 @@ function drawOnCanvas(angleOfSlit,xVal,yVal,slitHeight,slitWidth) {
     ctx2.lineCap="round";
     ctx2.globalAlpha = 1.0;
 
-    ctx2.strokeStyle="rgb(255,255,255)";
+    ctx2.strokeStyle=filterOption;
 
     var shadowShift=-angleOfSlit*28;
 
@@ -84,7 +93,7 @@ function drawOnCanvas(angleOfSlit,xVal,yVal,slitHeight,slitWidth) {
     ctx3.beginPath();
     ctx3.lineWidth = 150*slitWidth;
     ctx3.lineCap="round";
-    ctx3.strokeStyle="rgba(255,255,255)";
+    ctx3.strokeStyle=filterOption;
     ctx3.globalAlpha = 0.8;
    
 
@@ -111,7 +120,7 @@ function drawOnCanvas(angleOfSlit,xVal,yVal,slitHeight,slitWidth) {
     ctx3.beginPath();
     ctx3.lineWidth = 7;
     ctx3.lineCap="round";
-    ctx3.strokeStyle="white";
+    ctx3.strokeStyle=filterOption;
     ctx3.globalAlpha = 0.3*fadeBetween(0.1,0.2,slitWidth);
 
     //After line width between 0.2 - 0.5 fade away
@@ -132,6 +141,54 @@ function drawOnCanvas(angleOfSlit,xVal,yVal,slitHeight,slitWidth) {
     ctx3.stroke();
     ctx3.restore();
 
+}
+
+function getColorForShadow(filterOption){
+    if(filterOption == "white"){
+        return "rgba(255,255,255,40)";
+    }
+
+    if(filterOption == "green"){
+        return "rgba(0,255,0,40)";
+    }
+
+    if(filterOption == "blue"){
+        return "rgba(0,0,255,40)";
+    }
+
+    return "rgba(255,255,255)";
+}
+
+function getColorForFilterOption(filterOption){
+    if(filterOption == "white"){
+        return "rgb(255,255,255)";
+    }
+
+    if(filterOption == "green"){
+        return "rgb(0,255,0)";
+    }
+
+    if(filterOption == "blue"){
+        return "rgb(0,0,255)";
+    }
+
+    return "rgb(255,255,255)";
+}
+
+function getColorForFilterOptionBackground(filterOption){
+    if(filterOption == "white"){
+        return "rgb(0,0,0)";
+    }
+
+    if(filterOption == "green"){
+        return "rgb(0,20,0)";
+    }
+
+    if(filterOption == "blue"){
+        return "rgb(0,0,20)";
+    }
+
+    return "rgb(255,255,255)";
 }
 
 function fadeBetween(start, finish, number){
@@ -209,7 +266,7 @@ function findNewSlitWidth(oldSlitWidth, oldSlitWidthAngle, newSlitWidthAngle){
     if(oldSlitWidthAngle == newSlitWidthAngle){
         return oldSlitWidth;
     }
-    
+
     var isIncreasing = isIncreasingOrDecreasing(oldSlitWidthAngle,newSlitWidthAngle);
     var newWidth = oldSlitWidth;
     console.log("slitWidthIncreasing?"+isIncreasing);
@@ -240,18 +297,18 @@ function findNewSlitHeight(oldSlitHeight, oldSlitHeightAngle, newSlitHeightAngle
 
     var isIncreasing = isIncreasingOrDecreasing(oldSlitHeightAngle,newSlitHeightAngle);
     var newHeight = oldSlitHeight;
-    console.log("slitWidthIncreasing?"+isIncreasing);
+    console.log("slitHeigghtIncreasing?"+isIncreasing);
 
 
     if(isIncreasing){
-        newHeight=oldSlitWidth+0.05;
+        newHeight=oldSlitHeight+0.05;
     }
     else{
-        newHeight=oldSlitWidth-0.05;
+        newHeight=oldSlitHeight-0.05;
     }
 
-    if(newHeight>1.5){
-        return 1.5;
+    if(newHeight>1.0){
+        return 1.0;
     }
 
     if(newHeight<0){
@@ -259,6 +316,18 @@ function findNewSlitHeight(oldSlitHeight, oldSlitHeightAngle, newSlitHeightAngle
     }
 
     return newHeight;
+}
+
+function getFilterOptionFromFilterAngle(angle){
+    if(angle>20 && angle<32){
+        return "blue";
+    }
+
+    if(angle>300 && angle<340){
+        return "green";
+    }
+
+    return "white";
 }
 
 
