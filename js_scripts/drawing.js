@@ -12,9 +12,9 @@ function drawOnCanvas(angleOfSlit, xVal, yVal, slitHeight, slitWidth, filterOpti
     //setup canvas
     var c = document.getElementById("layer1");
     var ctx1 = c.getContext("2d");
-    ctx1.clearRect(0, 0, width*3, height*3)
     ctx1.save();
     ctx1.scale(scale,scale);
+    ctx1.clearRect(0, 0, width*10, height*10)
     ctx1.rect(0, 0, width, height);
     ctx1.clip();
 
@@ -43,7 +43,7 @@ function drawOnCanvas(angleOfSlit, xVal, yVal, slitHeight, slitWidth, filterOpti
     ctx2.save();
     ctx2.scale(scale,scale);
 
-    ctx2.clearRect(0, 0, width, height)
+    ctx2.clearRect(0, 0, width*3, height*3)
     //
     //Draw Corneal curve
     var xAdjustment = 1.333;
@@ -140,7 +140,10 @@ function drawOnCanvas(angleOfSlit, xVal, yVal, slitHeight, slitWidth, filterOpti
     ctx3.lineWidth = 7;
     ctx3.lineCap = "round";
     ctx3.strokeStyle = filterOption;
-    ctx3.globalAlpha = 0.3 * fadeBetween(0.1, 0.2, slitWidth);
+    var showSlit=(1-fadeBetween(0.2,0.8,Math.abs(angleOfSlit)));
+    ctx3.globalAlpha = 0.3 * fadeBetween(0.2, 0.4, slitWidth)*showSlit;
+
+    //console.log("val:"+showSlit);
     
 
     //After line width between 0.2 - 0.5 fade away
