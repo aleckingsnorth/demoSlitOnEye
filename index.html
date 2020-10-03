@@ -130,9 +130,9 @@
     <div id="widthSlider" width="400"></div>
 
     <div style="position: relative;">
-        <canvas id="layer1" width="400" height="400" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
-        <canvas id="layer2" width="400" height="400" style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
-        <canvas id="layer3" width="400" height="400" style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+        <canvas id="layer1" width="500" height="500" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+        <canvas id="layer2" width="500" height="500" style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+        <canvas id="layer3" width="500" height="500" style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
     </div>
     <br>
     <script>
@@ -144,6 +144,8 @@
         var slitHeight=0.25;
         var slitWidthAngle = 0;
         var slitHeightAngle = 0;
+        var oldScale = "1x";
+        var magAngle=0;
 
         function receiveMessageFromUnity(txt) {
             const lblMessage = document.getElementById("lblMessage");
@@ -156,16 +158,24 @@
             var newSlitWidth=findNewSlitWidth(slitWidth,slitWidthAngle, myObject.slitWidthAngle);
             var newSlitHeight=findNewSlitHeight(slitHeight, slitHeightAngle, myObject.slitHeightAngle);
             var filter=getFilterOptionFromFilterAngle(myObject.filterSelectorAngle);
+            var blur=getBlurValueFromBaseZ(myObject.baseZ);
+            var newScale = chooseMag(magAngle,myObject.magAngle,oldScale);
             
+            
+
             //Save
             slitWidth=newSlitWidth;
             slitHeight=newSlitHeight;
             slitWidthAngle=myObject.slitWidthAngle;
             slitHeightAngle=myObject.slitHeightAngle;
-            
-            console.log("filterOption"+filter);
+            magAngle=myObject.magAngle;
+            oldScale = newScale
 
-            drawOnCanvas(angle, baseX, heightZ, slitHeight, slitWidth,filter);
+            //console.log(newScale);
+            
+          
+
+            drawOnCanvas(angle, baseX, heightZ, slitHeight, slitWidth,filter,blur,oldScale);
         }
     </script>
 
