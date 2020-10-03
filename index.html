@@ -19,75 +19,6 @@
     </script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-        var angle = 0;
-        var xVal = 0;
-        var yVal = 0;
-        var slitHeight = 0.25;
-        var slitWidth = 0.25;
-
-        $(function () {
-            $("#angleSlider").slider({
-                value: 50,
-                slide: function (event, ui) {
-                    var actualValue = ((ui.value * 2) - 100) / 100;
-                    angle = actualValue;//-1 to 1
-                    drawOnCanvas(angle, xVal, yVal, slitHeight, slitWidth);
-
-                }
-            });
-        });
-
-        $(function () {
-            $("#heightSlider").slider({
-                value: 25,
-                slide: function (event, ui) {
-                    var actualValue = (ui.value) / 100;
-                    slitHeight = actualValue;//0-1
-                    drawOnCanvas(angle, xVal, yVal, slitHeight, slitWidth);
-
-                }
-            });
-        });
-
-        $(function () {
-            $("#widthSlider").slider({
-                value: 25,
-                slide: function (event, ui) {
-                    var actualValue = (ui.value) / 100;
-                    slitWidth = actualValue;//0-1
-                    drawOnCanvas(angle, xVal, yVal, slitHeight, slitWidth);
-
-                }
-            });
-        });
-
-        $(function () {
-            $("#xSlider").slider({
-                value: 50,
-                slide: function (event, ui) {
-                    var actualValue = ((ui.value * 2) - 100) / 100;
-                    xVal = actualValue;//0-1
-
-                    console.log(xVal+"xVal");
-                    drawOnCanvas(angle, xVal, yVal, slitHeight, slitWidth);
-
-                }
-            });
-        });
-
-        $(function () {
-            $("#ySlider").slider({
-                value: 50,
-                slide: function (event, ui) {
-                    var actualValue = ((ui.value * 2) - 100) / 100;
-                    yVal = actualValue;//0-1
-                    drawOnCanvas(angle, xVal, yVal, slitHeight, slitWidth);
-
-                }
-            });
-        });
-    </script>
 </head>
 
 <body>
@@ -103,31 +34,15 @@
     <br>
 
     <div class="centered" style="display: inline-block;">
-        <h2>Message from Unity</h2>
-        <p id="lblMessage" style="display: inline-block;">...</p>
+        <p id="lblMessage" style="display: inline-block;"></p>
     </div>
     <img id="eyeImage" src="assets/eye.png" width="100" alt="The Scream"></img>
     <h1>
-        Demo - V1.3
+        Demo - V1.4
     </h1>
     <div id="draw-eye">
 
     </div>
-
-    <label>Illumination Angle</label>
-    <div id="angleSlider" width="400"></div>
-
-    <label> X Pan - Value</label>
-    <div id="xSlider" width="400"></div>
-
-    <label>Y Pan - Value</label>
-    <div id="ySlider" width="400"></div>
-
-    <label>Slit Height</label>
-    <div id="heightSlider" width="400"></div>
-
-    <label>Slit Width</label>
-    <div id="widthSlider" width="400"></div>
 
     <div style="position: relative;">
         <canvas id="layer1" width="500" height="500" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
@@ -136,9 +51,7 @@
     </div>
     <br>
     <script>
-        drawOnCanvas(angle, xVal, yVal, slitHeight, slitWidth);
     </script>
-
     <script>
         var slitWidth=0.25;
         var slitHeight=0.25;
@@ -148,8 +61,8 @@
         var magAngle=0;
 
         function receiveMessageFromUnity(txt) {
-            const lblMessage = document.getElementById("lblMessage");
-            lblMessage.innerText = txt;
+            //const lblMessage = document.getElementById("lblMessage");
+            //lblMessage.innerText = txt;
 
             var myObject=JSON.parse(txt);
             var angle = mapFilterAngleToBrowserAngle(myObject.filterArmAngle);
