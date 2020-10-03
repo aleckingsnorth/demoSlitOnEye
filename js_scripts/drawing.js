@@ -12,6 +12,8 @@ function drawOnCanvas(angleOfSlit, xVal, yVal, slitHeight, slitWidth, filterOpti
     //setup canvas
     var c = document.getElementById("layer1");
     var ctx1 = c.getContext("2d");
+        ctx1.filter = 'blur('+blur+'px)';
+
     ctx1.save();
     ctx1.scale(scale,scale);
     ctx1.clearRect(0, 0, width*10, height*10)
@@ -35,7 +37,8 @@ function drawOnCanvas(angleOfSlit, xVal, yVal, slitHeight, slitWidth, filterOpti
     }
 
     ctx1.restore();
-    ctx1.filter = 'blur('+blur+'px)';
+
+
     //----Layer 2 -- Slit on Iris
     var c = document.getElementById("layer2");
 
@@ -58,12 +61,12 @@ function drawOnCanvas(angleOfSlit, xVal, yVal, slitHeight, slitWidth, filterOpti
     ctx2.restore();
 
 
-
+    var slitShadowBlur = 2+blur;
+    ctx2.filter = 'blur('+slitShadowBlur+'px)';
     ctx2.save();
     ctx2.scale(scale,scale);
 
     ctx2.beginPath();
-    var slitShadowBlur = 2+blur;
 
     ctx2.globalAlpha = 1.0;
     ctx2.rect(0, (height / 2) * (1 - slitHeight), width, height - ((height * (1 - slitHeight))));
@@ -90,13 +93,14 @@ function drawOnCanvas(angleOfSlit, xVal, yVal, slitHeight, slitWidth, filterOpti
     ctx2.bezierCurveTo(e2.x, e2.y, e3.x, e3.y, e4.x, e4.y);
     ctx2.stroke();
     ctx2.restore();
-    ctx2.filter = 'blur('+slitShadowBlur+'px)';
+    
 
 
     //----Layer 3 -- Slit on Cornea
     var c = document.getElementById("layer3");
     var ctx3 = c.getContext("2d");
     ctx3.clearRect(0, 0, width, height)
+    ctx3.filter = 'blur('+blur+'px)';
 
     var opacity = Math.pow((1 - slitWidth), 10) * 0.5;
     //Clip for Slit height
@@ -142,10 +146,7 @@ function drawOnCanvas(angleOfSlit, xVal, yVal, slitHeight, slitWidth, filterOpti
     ctx3.strokeStyle = filterOption;
     var showSlit=(1-fadeBetween(0.2,0.8,Math.abs(angleOfSlit)));
     ctx3.globalAlpha = 0.3 * fadeBetween(0.2, 0.4, slitWidth)*showSlit;
-
-    //console.log("val:"+showSlit);
     
-
     //After line width between 0.2 - 0.5 fade away
 
     var posOrNeg = 1;
@@ -163,7 +164,7 @@ function drawOnCanvas(angleOfSlit, xVal, yVal, slitHeight, slitWidth, filterOpti
     ctx3.bezierCurveTo(t2.x, t2.y, t3.x, t3.y, t4.x, t4.y);
     ctx3.stroke();
     ctx3.restore();
-    ctx3.filter = 'blur('+blur+'px)';
+    
 }
 
 function getColorForShadow(filterOption) {
