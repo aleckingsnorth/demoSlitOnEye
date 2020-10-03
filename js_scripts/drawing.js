@@ -12,12 +12,14 @@ function drawOnCanvas(angleOfSlit, xVal, yVal, slitHeight, slitWidth, filterOpti
     //setup canvas
     var c = document.getElementById("layer1");
     var ctx1 = c.getContext("2d");
-        ctx1.filter = 'blur('+blur+'px)';
-
     ctx1.save();
+
+    ctx1.filter = 'blur('+blur+'px)';
+
     ctx1.scale(scale,scale);
     ctx1.clearRect(0, 0, width*10, height*10)
-    ctx1.rect(0, 0, width, height);
+    ctx1.beginPath();
+    ctx1.rect(0, 0, 300, 300);
     ctx1.clip();
 
 
@@ -28,12 +30,13 @@ function drawOnCanvas(angleOfSlit, xVal, yVal, slitHeight, slitWidth, filterOpti
     //draw image
     var img = document.getElementById("eyeImage");
     ctx1.drawImage(img, width / 2 - 100 - xShift, (height / 2) - 100 + yShift);
+    ctx1.restore();
 
     if (filterOption != "white") {
         //ctx1.globalAlpha = 0.9;
         ctx1.globalCompositeOperation = "color";
         ctx1.fillStyle = getColorForShadow(filterOption);
-        ctx1.fillRect(0, 0, 500, 400);
+        //ctx1.fillRect(0, 0, width, he);
     }
 
     ctx1.restore();
