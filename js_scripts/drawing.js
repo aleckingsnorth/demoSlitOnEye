@@ -99,7 +99,7 @@ function drawOnCanvas(angleOfSlit, xVal, yVal, slitHeight, slitWidth, filterOpti
     //----Layer 3 -- Slit on Cornea
     var c = document.getElementById("layer3");
     var ctx3 = c.getContext("2d");
-    ctx3.clearRect(0, 0, width, height)
+    ctx3.clearRect(0, 0, width*5, height*5)
     ctx3.filter = 'blur('+blur+'px)';
 
     var opacity = Math.pow((1 - slitWidth), 10) * 0.5;
